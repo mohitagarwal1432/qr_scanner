@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <meta name="description" content="QR Code scanner" />
+        <meta name="keywords" content="qrcode,qr code,scanner,barcode,javascript" />
+        <meta name="language" content="English" />
+        <meta name="Revisit-After" content="1 Days" />
+        <meta name="robots" content="index, follow" />
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Web QR</title>
+
+        
+
+        <script type="text/javascript" src="llqrcode.js"></script>
+        <!-- <script type="text/javascript" src="plusone.js"></script> -->
+        <!-- <script type="text/javascript" src="webqr.js"></script> -->
+    </head>
+
+    <body>
+        <video id="videoTag"></video>
+        <input type="file" onchange="handleFiles(this.files)"/>
+        <script>
+            qrcode.setWebcam("videoTag");
+            qrcode.callback = function (a) {
+                console.log(a, qrcode.scanResultCode);
+            };
+            function handleFiles(f) {
+                for (var i = 0; i < f.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            qrcode.decode(e.target.result);
+                        };
+                    })(f[i]);
+                    reader.readAsDataURL(f[i]);
+                }
+            }
+        </script>
+    </body>
+</html>
